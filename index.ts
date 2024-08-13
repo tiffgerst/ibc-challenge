@@ -19,10 +19,10 @@ import { Tendermint34Client } from "@cosmjs/tendermint-rpc";
       const rpcClient = createProtobufRpcClient(queryClient);
       const bankQueryService = new QueryClientImpl(rpcClient);
       const transferQueryService = new TransferQuery(rpcClient);
-      const {balances} =  await bankQueryService.AllBalances({address: CHAIN_RPC_ADDRESS_MAPPING[chain].address});
+      const {balances} =  await bankQueryService.AllBalances({address});
       for (let {denom, amount} of balances){
         if(denom === lAsset || denom === dAsset){
-          console.log(`${denom}, ${denom}, ${amount}, [neutron]`);
+          console.log(`${denom}, ${denom}, ${amount}, [${chain}]`);
           continue;
         }
         
