@@ -40,7 +40,7 @@ import { Tendermint34Client } from "@cosmjs/tendermint-rpc";
             next_chain = CHAIN_CANNEL_MAPPING[next_chain][channel];
           }
           traces.push(next_chain);
-          console.log(`${denom}, ${denomTrace.baseDenom}, ${amount}, [${traces}]`);
+          console.log(`${denom}, ${denomTrace.baseDenom}, ${amount}, [${traces.reverse()}]`);
       }
     }
   }
