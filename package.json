@@ -13,8 +13,5 @@
     "@types/node": "^22.1.0",
     "ts-node": "^10.9.2",
     "typescript": "^5.5.4"
-  },
-  "dependencies": {
-    "bech32": "^2.0.0"
   }
 }

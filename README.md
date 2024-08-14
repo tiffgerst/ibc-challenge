@@ -1,7 +1,28 @@
 # convexity-challenge
 
-Output:
-neutron:
+## Installation
+
+To run the code, ensure that you have the following tools installed:
+
+- [Node.js](https://nodejs.org/)
+- [npm](https://www.npmjs.com/)
+
+### Dependencies
+Install the necessary dependencies using npm:
+
+```bash
+npm install
+```
+
+## Running the code
+To run the code simply execute
+
+```bash
+npm start
+```
+
+## Output
+`neutron:
 factory/neutron1lzecpea0qxw5xae92xkm3vaddeszr278k7w20c/dAsset, factory/neutron1lzecpea0qxw5xae92xkm3vaddeszr278k7w20c/dAsset, 113, [neutron]
 
 factory/neutron1lzecpea0qxw5xae92xkm3vaddeszr278k7w20c/lAsset, factory/neutron1lzecpea0qxw5xae92xkm3vaddeszr278k7w20c/lAsset, 21, [neutron]
@@ -28,4 +49,7 @@ ibc/3D459B55C08CE48681DB4E99101EE4BCF325A1FD02C21A85AB3BF62C9D8685BF, factory/ne
 stride:
 ibc/7BC3C5F0FF1AB51D0F7F818F95CB118809C8D8D5B625E81EF0CCAC931AC359BD, factory/neutron1lzecpea0qxw5xae92xkm3vaddeszr278k7w20c/lAsset, 2, [neutron,stride]
 
-ibc/E9ED93B74C8A353A6433E9663B0781E96653B4C4718184682071CCBA08A2790D, factory/neutron1lzecpea0qxw5xae92xkm3vaddeszr278k7w20c/dAsset, 5, [neutron,stride]
+ibc/E9ED93B74C8A353A6433E9663B0781E96653B4C4718184682071CCBA08A2790D, factory/neutron1lzecpea0qxw5xae92xkm3vaddeszr278k7w20c/dAsset, 5, [neutron,stride]`
+
+### Remarks 
+- Initially I wanted to only pass in one user address and derive all other chain addresses using bech32. However, Ollie's terra address appears to be different from the other addresses and could not be derived.
