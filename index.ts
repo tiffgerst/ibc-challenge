@@ -7,7 +7,7 @@ import {
 import { Tendermint34Client } from "@cosmjs/tendermint-rpc";
 
 /// Traces the lAsset and dAsset tokens across the specified user addresses.
-const traceToken = async (addresses: string[]) => {
+const traceDenoms = async (addresses: string[]) => {
   try {
     for (let address of addresses) {
       // get chain from address (assumes addresses have the chain separated by a '1' i.e. cosmos1pxyz...)
@@ -20,7 +20,7 @@ const traceToken = async (addresses: string[]) => {
 
       // connect to the chain's rpc endpoint
       const tendermint = await Tendermint34Client.connect(
-        CHAIN_RPC_MAPPING[chain].rpc
+        CHAIN_RPC_MAPPING[chain]
       );
       const queryClient = new QueryClient(tendermint);
       const rpcClient = createProtobufRpcClient(queryClient);
@@ -41,7 +41,7 @@ const traceToken = async (addresses: string[]) => {
         // if the denom does not begin with ibc it cannot be the lAsset or dAsset
         if (!denom.startsWith("ibc")) continue;
 
-        // for each ibc hash, trace the path it tooke
+        // for each ibc hash, trace the path it took
         let request: QueryDenomTraceRequest = { hash: denom };
         let { denomTrace } = await transferQueryService.DenomTrace(request);
 
@@ -59,13 +59,83 @@ const traceToken = async (addresses: string[]) => {
             .map((part) => part.split("/")[0]);
 
           // the first channel should always be the current chain, as it is where the token ended up
-          let next_chain = chain;
+          let nextChain = chain;
           for (let channel of channels) {
             // we then work backwards to see which chain the token came to this chain from using the channel mapping
-            path.push(next_chain);
-            next_chain = CHAIN_CANNEL_MAPPING[next_chain][channel];
+            path.push(nextChain);
+            nextChain = CHAIN_CANNEL_MAPPING[nextChain][channel];
           }
-          path.push(next_chain);
+          path.push(nextChain);
+          // finally log the hash, base denom and the chains it passed through
+          // we have to reverse the path list as the first listed channel is actually the last channel in the path
+          console.log(
+            `${denom}, ${denomTrace.baseDenom}, ${amount}, [${path.reverse()}]`
+          );
+        }
+      }
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+/// Alternative function to trace a specific asset across the specified user addresses.
+const traceDenom = async (addresses: string[], asset: string) => {
+  try {
+    for (let address of addresses) {
+      // get chain from address (assumes addresses have the chain separated by a '1' i.e. cosmos1pxyz...)
+      const prefix = address.split("1")[0];
+      const chain =
+        chainMap[prefix] || prefix.charAt(0).toUpperCase() + prefix.slice(1);
+
+      // log the chain for the output
+      console.log(`${chain}:`);
+
+      // connect to the chain's rpc endpoint
+      const tendermint = await Tendermint34Client.connect(
+        CHAIN_RPC_MAPPING[chain]
+      );
+      const queryClient = new QueryClient(tendermint);
+      const rpcClient = createProtobufRpcClient(queryClient);
+
+      // create banking and transfer query clients to fetch user balances and denom traces
+      const bankQueryService = new QueryClientImpl(rpcClient);
+      const transferQueryService = new TransferQuery(rpcClient);
+
+      // first fetch all user balances for the given address and chain
+      const { balances } = await bankQueryService.AllBalances({ address });
+      for (let { denom, amount } of balances) {
+        // if the denom is the asset, log and continue as this must be the original denom chain
+        if (denom === asset) {
+          console.log(`${denom}, ${denom}, ${amount}, [${chain}]`);
+          continue;
+        }
+
+        // if the denom does not begin with ibc it cannot be the asset
+        if (!denom.startsWith("ibc")) continue;
+
+        // for each ibc hash, trace the path it took
+        let request: QueryDenomTraceRequest = { hash: denom };
+        let { denomTrace } = await transferQueryService.DenomTrace(request);
+
+        // if the base denom is the asset, break the path down further
+        if (denomTrace.baseDenom === asset) {
+          let path = [];
+
+          // separate out all the channels the asset passed through
+          const channels = denomTrace.path
+            .split("transfer/")
+            .filter((part) => part.startsWith("channel-"))
+            .map((part) => part.split("/")[0]);
+
+          // the first channel should always be the current chain, as it is where the token ended up
+          let nextChain = chain;
+          for (let channel of channels) {
+            // we then work backwards to see which chain the token came to this chain from using the channel mapping
+            path.push(nextChain);
+            nextChain = CHAIN_CANNEL_MAPPING[nextChain][channel];
+          }
+          path.push(nextChain);
           // finally log the hash, base denom and the chains it passed through
           // we have to reverse the path list as the first listed channel is actually the last channel in the path
           console.log(
@@ -159,4 +229,7 @@ const addresses = [
   "stride1lzecpea0qxw5xae92xkm3vaddeszr2783285pn",
 ];
 
-traceToken(addresses);
+// uncomment as desired
+traceDenoms(addresses);
+// traceDenom(addresses, lAsset);
+// traceDenom(addresses, dAsset);
