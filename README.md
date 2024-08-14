@@ -40,6 +40,10 @@ ibc/3D459B55C08CE48681DB4E99101EE4BCF325A1FD02C21A85AB3BF62C9D8685BF, factory/ne
 Stride:
 ibc/7BC3C5F0FF1AB51D0F7F818F95CB118809C8D8D5B625E81EF0CCAC931AC359BD, factory/neutron1lzecpea0qxw5xae92xkm3vaddeszr278k7w20c/lAsset, 2, [neutron,stride]
 ibc/E9ED93B74C8A353A6433E9663B0781E96653B4C4718184682071CCBA08A2790D, factory/neutron1lzecpea0qxw5xae92xkm3vaddeszr278k7w20c/dAsset, 5, [neutron,stride]
+
+TOTAL AMOUNTS:
+factory/neutron1lzecpea0qxw5xae92xkm3vaddeszr278k7w20c/lAsset, 42
+factory/neutron1lzecpea0qxw5xae92xkm3vaddeszr278k7w20c/dAsset, 137
 ```
 
 ### Output for traceDenom with lAsset:
@@ -53,6 +57,9 @@ Stargaze:
 Cosmos:
 Stride:
 ibc/7BC3C5F0FF1AB51D0F7F818F95CB118809C8D8D5B625E81EF0CCAC931AC359BD, factory/neutron1lzecpea0qxw5xae92xkm3vaddeszr278k7w20c/lAsset, 2, [neutron,stride]
+
+TOTAL AMOUNTS:
+factory/neutron1lzecpea0qxw5xae92xkm3vaddeszr278k7w20c/lAsset, 42
 ```
 
 ### Output for traceDenom with dAsset:
@@ -71,6 +78,9 @@ Cosmos:
 ibc/3D459B55C08CE48681DB4E99101EE4BCF325A1FD02C21A85AB3BF62C9D8685BF, factory/neutron1lzecpea0qxw5xae92xkm3vaddeszr278k7w20c/dAsset, 4, [neutron,stride,cosmos]
 Stride:
 ibc/E9ED93B74C8A353A6433E9663B0781E96653B4C4718184682071CCBA08A2790D, factory/neutron1lzecpea0qxw5xae92xkm3vaddeszr278k7w20c/dAsset, 5, [neutron,stride]
+
+TOTAL AMOUNTS:
+factory/neutron1lzecpea0qxw5xae92xkm3vaddeszr278k7w20c/dAsset, 137
 ```
 
 ### Remarks 

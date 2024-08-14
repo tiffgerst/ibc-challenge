@@ -8,6 +8,8 @@ import { Tendermint34Client } from "@cosmjs/tendermint-rpc";
 
 /// Traces the lAsset and dAsset tokens across the specified user addresses.
 const traceDenoms = async (addresses: string[]) => {
+  let lAssetAmount = 0;
+  let dAssetAmount = 0;
   try {
     for (let address of addresses) {
       // get chain from address (assumes addresses have the chain separated by a '1' i.e. cosmos1pxyz...)
@@ -35,6 +37,9 @@ const traceDenoms = async (addresses: string[]) => {
         // if the denom is the lAsset or dAsset, log and continue as this must be the original denom chain
         if (denom === lAsset || denom === dAsset) {
           console.log(`${denom}, ${denom}, ${amount}, [${chain}]`);
+          denom === lAsset
+            ? (lAssetAmount += parseInt(amount))
+            : (dAssetAmount += parseInt(amount));
           continue;
         }
 
@@ -71,9 +76,15 @@ const traceDenoms = async (addresses: string[]) => {
           console.log(
             `${denom}, ${denomTrace.baseDenom}, ${amount}, [${path.reverse()}]`
           );
+          denomTrace.baseDenom === lAsset
+            ? (lAssetAmount += parseInt(amount))
+            : (dAssetAmount += parseInt(amount));
         }
       }
     }
+    console.log(`\nTOTAL AMOUNTS:`);
+    console.log(`${lAsset}, ${lAssetAmount}`);
+    console.log(`${dAsset}, ${dAssetAmount}`);
   } catch (error) {
     console.log(error);
   }
@@ -82,6 +93,7 @@ const traceDenoms = async (addresses: string[]) => {
 /// Alternative function to trace a specific asset across the specified user addresses.
 const traceDenom = async (addresses: string[], asset: string) => {
   try {
+    let totalAmount = 0;
     for (let address of addresses) {
       // get chain from address (assumes addresses have the chain separated by a '1' i.e. cosmos1pxyz...)
       const prefix = address.split("1")[0];
@@ -108,6 +120,7 @@ const traceDenom = async (addresses: string[], asset: string) => {
         // if the denom is the asset, log and continue as this must be the original denom chain
         if (denom === asset) {
           console.log(`${denom}, ${denom}, ${amount}, [${chain}]`);
+          totalAmount += parseInt(amount);
           continue;
         }
 
@@ -120,6 +133,7 @@ const traceDenom = async (addresses: string[], asset: string) => {
 
         // if the base denom is the asset, break the path down further
         if (denomTrace.baseDenom === asset) {
+          totalAmount += parseInt(amount);
           let path = [];
 
           // separate out all the channels the asset passed through
@@ -144,6 +158,7 @@ const traceDenom = async (addresses: string[], asset: string) => {
         }
       }
     }
+    console.log(`\nTOTAL AMOUNTS:\n${asset}, ${totalAmount}`);
   } catch (error) {
     console.log(error);
   }
