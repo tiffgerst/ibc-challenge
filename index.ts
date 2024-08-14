@@ -16,7 +16,7 @@ const traceDenoms = async (addresses: string[]) => {
         chainMap[prefix] || prefix.charAt(0).toUpperCase() + prefix.slice(1);
 
       // log the chain for the output
-      console.log(`${chain}:`);
+      console.log(`${chain.charAt(0).toUpperCase() + chain.slice(1)}:`);
 
       // connect to the chain's rpc endpoint
       const tendermint = await Tendermint34Client.connect(
@@ -89,7 +89,7 @@ const traceDenom = async (addresses: string[], asset: string) => {
         chainMap[prefix] || prefix.charAt(0).toUpperCase() + prefix.slice(1);
 
       // log the chain for the output
-      console.log(`${chain}:`);
+      console.log(`${chain.charAt(0).toUpperCase() + chain.slice(1)}:`);
 
       // connect to the chain's rpc endpoint
       const tendermint = await Tendermint34Client.connect(
