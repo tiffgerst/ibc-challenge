@@ -49,15 +49,13 @@ import { Tendermint34Client } from "@cosmjs/tendermint-rpc";
   }
 };
 
-// const chains = ["neutron", "osmosis", "phoenix", "stargaze", "cosmos", "stride"];
-
 const CHAIN_RPC_ADDRESS_MAPPING = {
-  "neutron": {"rpc":"https://neutron-rpc.publicnode.com:443", "address":"neutron1lzecpea0qxw5xae92xkm3vaddeszr278k7w20c", "chain_id":"neutron"},
-  "osmosis": {"rpc":"https://osmosis-rpc.publicnode.com:443", "address":"osmo1lzecpea0qxw5xae92xkm3vaddeszr278665crd", "chain_id":"osmo"},
-  "phoenix": {"rpc": "https://terra-rpc.publicnode.com:443", "address": "terra1w7mtx2g478kkhs6pgynpcjpt6aw4930q34j36v", "chain_id":"terra"},
-  "stargaze": {"rpc":"https://stargaze-rpc.publicnode.com:443", "address":"stars1lzecpea0qxw5xae92xkm3vaddeszr278xas47w", "chain_id":"stars"},
-  "cosmos": {"rpc":"https://cosmos-rpc.publicnode.com:443", "address":"cosmos1lzecpea0qxw5xae92xkm3vaddeszr278jp8g4l", "chain_id":"cosmos"},
-  "stride": {"rpc":"https://stride-rpc.publicnode.com:443", "address":"stride1lzecpea0qxw5xae92xkm3vaddeszr2783285pn", "chain_id":"stride"},
+  "neutron": {"rpc":"https://neutron-rpc.publicnode.com:443", "chain_id":"neutron"},
+  "osmosis": {"rpc":"https://osmosis-rpc.publicnode.com:443", "chain_id":"osmo"},
+  "phoenix": {"rpc": "https://terra-rpc.publicnode.com:443", "chain_id":"terra"},
+  "stargaze": {"rpc":"https://stargaze-rpc.publicnode.com:443", "chain_id":"stars"},
+  "cosmos": {"rpc":"https://cosmos-rpc.publicnode.com:443", "chain_id":"cosmos"},
+  "stride": {"rpc":"https://stride-rpc.publicnode.com:443", "chain_id":"stride"},
 }
 const chainMap = {
   'neutron': 'neutron',
@@ -124,12 +122,3 @@ const addresses = [
 ];
 
 traceToken(addresses);
-
-function deriveAddress(baseAddress: string, chainId: string): string {
-  // Decode the Neutron address
-  const { words } = bech32.decode(baseAddress);
-
-  // Re-encode with the Cosmos prefix
-  return bech32.encode(chainId, words);
-}
-
