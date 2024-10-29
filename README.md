@@ -1,4 +1,4 @@
-# convexity-challenge
+# ibc-challenge
 
 ## Installation
 
@@ -82,6 +82,3 @@ ibc/E9ED93B74C8A353A6433E9663B0781E96653B4C4718184682071CCBA08A2790D, factory/ne
 TOTAL AMOUNTS:
 factory/neutron1lzecpea0qxw5xae92xkm3vaddeszr278k7w20c/dAsset, 137
 ```
-
-### Remarks 
-- Initially I wanted to only pass in one user address and derive all other chain addresses using bech32. However, Ollie's terra address appears to be different from the other addresses and could not be derived.
